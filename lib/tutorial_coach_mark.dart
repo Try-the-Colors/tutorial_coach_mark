@@ -14,8 +14,7 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
-  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
-      onClickTargetWithTapPosition;
+  final FutureOr<void> Function(TargetFocus, TapDownDetails)? onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
@@ -33,6 +32,7 @@ class TutorialCoachMark {
   final bool pulseEnable;
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
+  final Function()? onPointerDown;
 
   OverlayEntry? _overlayEntry;
 
@@ -56,6 +56,7 @@ class TutorialCoachMark {
     this.pulseEnable = true,
     this.skipWidget,
     this.showSkipInLastTarget = true,
+    this.onPointerDown,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -83,6 +84,7 @@ class TutorialCoachMark {
           finish: finish,
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
+          onPointerDown: onPointerDown,
         );
       },
     );
@@ -98,7 +100,8 @@ class TutorialCoachMark {
     });
   }
 
-  void showWithoutContext({required GlobalKey<NavigatorState> navigatorKey, bool rootOverlay = false}) {
+  void showWithoutContext(
+      {required GlobalKey<NavigatorState> navigatorKey, bool rootOverlay = false}) {
     // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {

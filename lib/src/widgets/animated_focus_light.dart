@@ -14,6 +14,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final FutureOr Function(TargetFocus, TapDownDetails)?
       clickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
+  final Function()? onPointerDown;
   final Function? removeFocus;
   final Function()? finish;
   final double paddingFocus;
@@ -44,6 +45,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.pulseVariation,
     this.pulseEnable = true,
     this.rootOverlay = false,
+    this.onPointerDown,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -352,6 +354,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     return Listener(
       onPointerDown: (e){
         print('down');
+        widget.onPointerDown?.call();
       },
       behavior: HitTestBehavior.translucent,
       child: IgnorePointer(

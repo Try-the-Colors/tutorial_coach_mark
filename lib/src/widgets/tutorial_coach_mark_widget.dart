@@ -31,6 +31,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.skipWidget,
     this.rootOverlay = false,
     this.showSkipInLastTarget = false,
+    this.onPointerDown,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -56,6 +57,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Widget? skipWidget;
   final bool rootOverlay;
   final bool showSkipInLastTarget;
+  final Function()? onPointerDown;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -86,6 +88,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             pulseVariation: widget.pulseVariation,
             pulseEnable: widget.pulseEnable,
             rootOverlay: widget.rootOverlay,
+            onPointerDown: widget.onPointerDown,
             clickTarget: (target) {
               return widget.clickTarget?.call(target);
             },
