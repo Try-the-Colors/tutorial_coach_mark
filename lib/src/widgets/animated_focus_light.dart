@@ -241,44 +241,53 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _targetFocus.enableOverlayTab
-          ? () => _tapHandler(overlayTap: true)
-          : null,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, child) {
-          _progressAnimated = _curvedAnimation.value;
-          return Stack(
-            children: <Widget>[
-              SizedBox(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                child: CustomPaint(
-                  painter: _getPainter(_targetFocus),
-                ),
-              ),
-              Positioned(
-                left: left,
-                top: top,
-                child: InkWell(
-                  borderRadius: _betBorderRadiusTarget(),
-                  onTapDown: _tapHandlerForPosition,
-                  onTap: _targetFocus.enableTargetTab
-                      ? () => _tapHandler(targetTap: true)
-
-                      /// Essential for collecting [TapDownDetails]. Do not make [null]
-                      : () {},
-                  child: Container(
-                    color: Colors.transparent,
-                    width: width,
-                    height: height,
+    return Listener(
+      onPointerDown: (e) {
+        widget.onPointerDown?.call();
+      },
+      behavior: HitTestBehavior.translucent,
+      child: IgnorePointer(
+        ignoring: true,
+        child: InkWell(
+          onTap: _targetFocus.enableOverlayTab
+              ? () => _tapHandler(overlayTap: true)
+              : null,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (_, child) {
+              _progressAnimated = _curvedAnimation.value;
+              return Stack(
+                children: <Widget>[
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: double.maxFinite,
+                    child: CustomPaint(
+                      painter: _getPainter(_targetFocus),
+                    ),
                   ),
-                ),
-              )
-            ],
-          );
-        },
+                  Positioned(
+                    left: left,
+                    top: top,
+                    child: InkWell(
+                      borderRadius: _betBorderRadiusTarget(),
+                      onTapDown: _tapHandlerForPosition,
+                      onTap: _targetFocus.enableTargetTab
+                          ? () => _tapHandler(targetTap: true)
+
+                          /// Essential for collecting [TapDownDetails]. Do not make [null]
+                          : () {},
+                      child: Container(
+                        color: Colors.transparent,
+                        width: width,
+                        height: height,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -352,8 +361,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   @override
   Widget build(BuildContext context) {
     return Listener(
-      onPointerDown: (e){
-        print('down');
+      onPointerDown: (e) {
         widget.onPointerDown?.call();
       },
       behavior: HitTestBehavior.translucent,
@@ -389,7 +397,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                           borderRadius: _betBorderRadiusTarget(),
                           onTap: _targetFocus.enableTargetTab
                               ? () => _tapHandler(targetTap: true)
-      
+
                               /// Essential for collecting [TapDownDetails]. Do not make [null]
                               : () {},
                           onTapDown: _tapHandlerForPosition,
