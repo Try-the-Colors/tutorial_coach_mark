@@ -91,8 +91,9 @@ class TutorialCoachMark {
     );
   }
 
-  void show({required BuildContext context, bool rootOverlay = false}) {
-    Future.delayed(Duration.zero, () {
+  Future<void> show(
+      {required BuildContext context, bool rootOverlay = false}) async {
+    await Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
         // ignore: invalid_null_aware_operator
