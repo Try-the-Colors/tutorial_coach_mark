@@ -14,7 +14,8 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
-  final FutureOr<void> Function(TargetFocus, TapDownDetails)? onClickTargetWithTapPosition;
+  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
+      onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
@@ -101,7 +102,8 @@ class TutorialCoachMark {
   }
 
   Future<void> showWithoutContext(
-      {required GlobalKey<NavigatorState> navigatorKey, bool rootOverlay = false}) async {
+      {required GlobalKey<NavigatorState> navigatorKey,
+      bool rootOverlay = false}) async {
     // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
     await Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
