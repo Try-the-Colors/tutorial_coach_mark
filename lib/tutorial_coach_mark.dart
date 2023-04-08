@@ -33,6 +33,7 @@ class TutorialCoachMark {
   final bool pulseEnable;
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
+  final Function()? onPointerDown;
 
   OverlayEntry? _overlayEntry;
 
@@ -56,6 +57,7 @@ class TutorialCoachMark {
     this.pulseEnable = true,
     this.skipWidget,
     this.showSkipInLastTarget = true,
+    this.onPointerDown,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -83,13 +85,15 @@ class TutorialCoachMark {
           finish: finish,
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
+          onPointerDown: onPointerDown,
         );
       },
     );
   }
 
-  void show({required BuildContext context, bool rootOverlay = false}) {
-    Future.delayed(Duration.zero, () {
+  Future<void> show(
+      {required BuildContext context, bool rootOverlay = false}) async {
+    await Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
         // ignore: invalid_null_aware_operator
@@ -98,9 +102,11 @@ class TutorialCoachMark {
     });
   }
 
-  void showWithoutContext({required GlobalKey<NavigatorState> navigatorKey, bool rootOverlay = false}) {
+  Future<void> showWithoutContext(
+      {required GlobalKey<NavigatorState> navigatorKey,
+      bool rootOverlay = false}) async {
     // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
-    Future.delayed(Duration.zero, () {
+    await Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
         navigatorKey.currentState?.overlay?.insert(_overlayEntry!);
